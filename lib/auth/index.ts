@@ -14,4 +14,8 @@ export const auth = betterAuth({
       maxAge: 5 * 60, // Cache duration in seconds
     },
   },
+
+  emailAndPassword: {
+    enabled: true,
+  },
 })
