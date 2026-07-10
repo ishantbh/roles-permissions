@@ -1,6 +1,14 @@
+'use client'
+
 import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Controller, useForm } from 'react-hook-form'
 
 import { cn } from '@/lib/utils'
+import {
+  loginSchema,
+  type LoginFormData,
+} from '../validation/login-form-schema'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -12,6 +20,7 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from '@/components/ui/field'
@@ -21,6 +30,19 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
+
+  function onSubmit(data: LoginFormData) {
+    // TODO: Handle login
+    console.log('Submitted data:', data)
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -31,29 +53,56 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor='email'>Email</FieldLabel>
-                <Input
-                  id='email'
-                  type='email'
-                  placeholder='m@example.com'
-                  required
-                />
-              </Field>
-              <Field>
-                <div className='flex items-center'>
-                  <FieldLabel htmlFor='password'>Password</FieldLabel>
-                  <Link
-                    href='/forgot-password'
-                    className='ml-auto inline-block text-sm underline-offset-4 hover:underline'
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-                <Input id='password' type='password' required />
-              </Field>
+              <Controller
+                name='email'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor='email'>Email</FieldLabel>
+                    <Input
+                      {...field}
+                      id='email'
+                      type='email'
+                      placeholder='m@example.com'
+                      aria-invalid={fieldState.invalid}
+                      required
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+              <Controller
+                name='password'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <div className='flex items-center'>
+                      <FieldLabel htmlFor='password'>Password</FieldLabel>
+                      <Link
+                        href='/forgot-password'
+                        className='ml-auto inline-block text-sm underline-offset-4 hover:underline'
+                      >
+                        Forgot your password?
+                      </Link>
+                    </div>
+                    <Input
+                      {...field}
+                      id='password'
+                      type='password'
+                      aria-invalid={fieldState.invalid}
+                      required
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
               <Field>
                 <Button type='submit'>Login</Button>
                 <Button variant='outline' type='button'>
