@@ -3,9 +3,10 @@
 import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
-import { authClient } from '@/lib/auth/auth-client'
 import { cn } from '@/lib/utils'
+import { authClient } from '@/lib/auth/auth-client'
 import {
   SignUpFormData,
   signUpSchema,
@@ -52,16 +53,13 @@ export function SignUpForm({
       })
 
       if (error) {
-        console.error('Error signing up:', error.message)
+        toast.error(error.message)
         return
       }
 
-      console.log('Successfully signed up')
+      toast.success('Successfully signed up')
     } catch (e) {
-      console.error('Error signing up')
-      if (e instanceof Error) {
-        console.error(e.message)
-      }
+      toast.error('Error signing up')
     }
   }
 
