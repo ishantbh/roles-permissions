@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -33,6 +34,8 @@ export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const router = useRouter()
+
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -58,6 +61,7 @@ export function SignUpForm({
       }
 
       toast.success('Successfully signed up')
+      router.replace('/dashboard')
     } catch (e) {
       toast.error('Error signing up')
     }
