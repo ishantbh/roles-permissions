@@ -3,8 +3,10 @@
 import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 import { cn } from '@/lib/utils'
+import { authClient } from '@/lib/auth/auth-client'
 import {
   loginSchema,
   type LoginFormData,
@@ -42,8 +44,21 @@ export function LoginForm({
   const { isSubmitting } = form.formState
 
   async function onSubmit(data: LoginFormData) {
-    // TODO: Handle login
-    console.log('Submitted data:', data)
+    try {
+      const { error } = await authClient.signIn.email({
+        ...data,
+        callbackURL: '/dashboard',
+      })
+
+      if (error) {
+        toast.error(error.message)
+        return
+      }
+
+      toast.success('Successfully logged in')
+    } catch (e) {
+      toast.error('Error loggin in')
+    }
   }
 
   return (
