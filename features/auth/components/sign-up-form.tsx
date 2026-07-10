@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 
+import { authClient } from '@/lib/auth/auth-client'
 import { cn } from '@/lib/utils'
 import {
   SignUpFormData,
@@ -44,8 +45,24 @@ export function SignUpForm({
   const { isSubmitting } = form.formState
 
   async function onSubmit(data: SignUpFormData) {
-    // TODO: Handle login
-    console.log('Submitted data:', data)
+    try {
+      const { error } = await authClient.signUp.email({
+        ...data,
+        callbackURL: '/dashboard',
+      })
+
+      if (error) {
+        console.error('Error signing up:', error.message)
+        return
+      }
+
+      console.log('Successfully signed up')
+    } catch (e) {
+      console.error('Error signing up')
+      if (e instanceof Error) {
+        console.error(e.message)
+      }
+    }
   }
 
   return (
