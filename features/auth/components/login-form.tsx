@@ -25,6 +25,7 @@ import {
   FieldLabel,
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { Spinner } from '@/components/ui/spinner'
 
 export function LoginForm({
   className,
@@ -38,7 +39,9 @@ export function LoginForm({
     },
   })
 
-  function onSubmit(data: LoginFormData) {
+  const { isSubmitting } = form.formState
+
+  async function onSubmit(data: LoginFormData) {
     // TODO: Handle login
     console.log('Submitted data:', data)
   }
@@ -67,6 +70,7 @@ export function LoginForm({
                       type='email'
                       placeholder='m@example.com'
                       aria-invalid={fieldState.invalid}
+                      disabled={isSubmitting}
                       required
                     />
                     {fieldState.invalid && (
@@ -94,6 +98,7 @@ export function LoginForm({
                       id='password'
                       type='password'
                       aria-invalid={fieldState.invalid}
+                      disabled={isSubmitting}
                       required
                     />
                     {fieldState.invalid && (
@@ -104,8 +109,12 @@ export function LoginForm({
               />
 
               <Field>
-                <Button type='submit'>Login</Button>
-                <Button variant='outline' type='button'>
+                <Button type='submit' disabled={isSubmitting}>
+                  {isSubmitting && <Spinner data-icon='inline-start' />}
+                  <span>Login</span>
+                </Button>
+
+                <Button variant='outline' type='button' disabled={isSubmitting}>
                   Login with Google
                 </Button>
                 <FieldDescription className='text-center'>
