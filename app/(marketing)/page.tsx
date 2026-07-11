@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 import { Footer } from '@/components/landing-page/footer'
 import { Header } from '@/components/landing-page/header'
 
@@ -13,6 +15,9 @@ export default function HomePage() {
             Better Auth organizations with roles and permissions in Next.js with
             user invitations, role based access control, and more.
           </p>
+          <Button size='lg' className='px-16'>
+            <Link href='/dashboard'>Get Started</Link>
+          </Button>
         </div>
       </main>
 
