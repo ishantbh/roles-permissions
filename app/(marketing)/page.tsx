@@ -1,3 +1,4 @@
+import { Footer } from '@/components/landing-page/footer'
 import { Header } from '@/components/landing-page/header'
 
 export default function HomePage() {
@@ -14,6 +15,8 @@ export default function HomePage() {
           </p>
         </div>
       </main>
+
+      <Footer />
     </div>
   )
 }
