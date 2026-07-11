@@ -12,5 +12,11 @@ export default async function DashboardPage() {
     redirect('/login')
   }
 
-  return <div>Dashboard</div>
+  return (
+    <div className='grow flex items-center justify-center text-center'>
+      <h1 className='text-2xl sm:text-3xl font-semibold'>
+        Welcome {session.user.name}!
+      </h1>
+    </div>
+  )
 }
