@@ -15,7 +15,7 @@ export default function HomePage() {
             Better Auth organizations with roles and permissions in Next.js with
             user invitations, role based access control, and more.
           </p>
-          <Button size='lg' className='px-16'>
+          <Button size='lg' className='px-16' asChild>
             <Link href='/dashboard'>Get Started</Link>
           </Button>
         </div>
