@@ -10,6 +10,7 @@ export function Footer() {
             variant='link'
             size='xs'
             className='p-0 underline text-foreground'
+            asChild
           >
             <a
               href='https://github.com/ishantbh'
