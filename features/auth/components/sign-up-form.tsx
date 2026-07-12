@@ -8,10 +8,7 @@ import { toast } from 'sonner'
 
 import { cn } from '@/lib/utils'
 import { authClient } from '@/lib/auth/auth-client'
-import {
-  SignUpFormData,
-  signUpSchema,
-} from '../validation/sign-up-form-schema copy'
+import { SignUpFormData, signUpSchema } from '../validation/sign-up-form-schema'
 import { Button } from '@/components/ui/button'
 import {
   Card,
