@@ -52,7 +52,7 @@ export function SignUpForm({
     try {
       const { error } = await authClient.signUp.email({
         ...data,
-        callbackURL: '/dashboard',
+        callbackURL: '/onboarding',
       })
 
       if (error) {
@@ -61,7 +61,7 @@ export function SignUpForm({
       }
 
       toast.success('Successfully signed up')
-      router.replace('/dashboard')
+      router.replace('/onboarding')
     } catch (e) {
       toast.error('Error signing up')
     }
