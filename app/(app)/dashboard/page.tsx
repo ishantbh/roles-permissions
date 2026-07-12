@@ -12,6 +12,14 @@ export default async function DashboardPage() {
     redirect('/login')
   }
 
+  const organizations = await auth.api.listOrganizations({
+    headers: await headers(),
+  })
+
+  if (organizations.length === 0) {
+    redirect('/onboarding')
+  }
+
   return (
     <div className='grow flex items-center justify-center text-center'>
       <h1 className='text-2xl sm:text-3xl font-semibold'>
