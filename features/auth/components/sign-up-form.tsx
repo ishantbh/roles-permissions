@@ -8,10 +8,7 @@ import { toast } from 'sonner'
 
 import { cn } from '@/lib/utils'
 import { authClient } from '@/lib/auth/auth-client'
-import {
-  SignUpFormData,
-  signUpSchema,
-} from '../validation/sign-up-form-schema copy'
+import { SignUpFormData, signUpSchema } from '../validation/sign-up-form-schema'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -52,7 +49,7 @@ export function SignUpForm({
     try {
       const { error } = await authClient.signUp.email({
         ...data,
-        callbackURL: '/dashboard',
+        callbackURL: '/onboarding',
       })
 
       if (error) {
@@ -61,7 +58,7 @@ export function SignUpForm({
       }
 
       toast.success('Successfully signed up')
-      router.replace('/dashboard')
+      router.replace('/onboarding')
     } catch (e) {
       toast.error('Error signing up')
     }

@@ -48,10 +48,7 @@ export function LoginForm({
 
   async function onSubmit(data: LoginFormData) {
     try {
-      const { error } = await authClient.signIn.email({
-        ...data,
-        callbackURL: '/dashboard',
-      })
+      const { error } = await authClient.signIn.email(data)
 
       if (error) {
         toast.error(error.message)
@@ -59,7 +56,16 @@ export function LoginForm({
       }
 
       toast.success('Successfully logged in')
-      router.replace('/dashboard')
+
+      const { data: orgs, error: orgError } =
+        await authClient.organization.list()
+
+      if (orgError) {
+        toast.error(orgError.message)
+        return
+      }
+
+      router.push(orgs.length ? '/dashboard' : '/onboarding')
     } catch (e) {
       toast.error('Error loggin in')
     }
