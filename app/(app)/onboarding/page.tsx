@@ -2,6 +2,13 @@ import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/lib/auth'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { OnboardingForm } from '@/features/onboarding/components/onboarding-form'
 
 export default async function OnboardingPage() {
@@ -31,7 +38,15 @@ export default async function OnboardingPage() {
       </p>
 
       <div className='w-full max-w-sm mt-4'>
-        <OnboardingForm />
+        <Card>
+          <CardHeader>
+            <CardTitle>Create Workspace</CardTitle>
+            <CardDescription>Create your first workspace</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <OnboardingForm />
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

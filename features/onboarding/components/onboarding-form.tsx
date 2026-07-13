@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import { cn } from '@/lib/utils'
 import { authClient } from '@/lib/auth/auth-client'
 import { generateOrganizationSlug } from '@/lib/helpers'
 import {
@@ -13,13 +12,6 @@ import {
   type OnboardingFormData,
 } from '../validation/onboarding-form-schema'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import {
   Field,
   FieldError,
@@ -32,7 +24,7 @@ import { Spinner } from '@/components/ui/spinner'
 export function OnboardingForm({
   className,
   ...props
-}: React.ComponentProps<'div'>) {
+}: React.ComponentProps<'form'>) {
   const router = useRouter()
 
   const form = useForm<OnboardingFormData>({
@@ -68,48 +60,38 @@ export function OnboardingForm({
   }
 
   return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Create Workspace</CardTitle>
-          <CardDescription>Create your first workspace</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FieldGroup>
-              <Controller
-                name='workspaceName'
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor='workspace-name'>
-                      Workspace Name
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id='workspace-name'
-                      placeholder='My Awesome Workspace'
-                      aria-invalid={fieldState.invalid}
-                      disabled={isSubmitting}
-                      required
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className={className}
+      {...props}
+    >
+      <FieldGroup>
+        <Controller
+          name='workspaceName'
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor='workspace-name'>Workspace Name</FieldLabel>
+              <Input
+                {...field}
+                id='workspace-name'
+                placeholder='My Awesome Workspace'
+                aria-invalid={fieldState.invalid}
+                disabled={isSubmitting}
+                required
               />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-              <Field>
-                <Button type='submit' disabled={isSubmitting}>
-                  {isSubmitting && <Spinner data-icon='inline-start' />}
-                  <span>Create</span>
-                </Button>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+        <Field>
+          <Button type='submit' disabled={isSubmitting}>
+            {isSubmitting && <Spinner data-icon='inline-start' />}
+            <span>Create</span>
+          </Button>
+        </Field>
+      </FieldGroup>
+    </form>
   )
 }
