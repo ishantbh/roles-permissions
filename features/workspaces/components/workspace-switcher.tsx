@@ -64,18 +64,20 @@ export function WorkspaceSwitcher() {
         <DropdownMenuLabel className='text-xs text-muted-foreground'>
           Workspaces
         </DropdownMenuLabel>
-        {workspaces?.map((workspace) => (
-          <DropdownMenuItem
-            key={workspace.id}
-            onClick={() => setActiveWorkspace(workspace.id)}
-            className={cn('gap-2 p-2 justify-between text-muted-foreground', {
-              'text-foreground': workspace.id === activeWorkspace?.id,
-            })}
-          >
-            <span>{workspace.name}</span>
-            <CheckIcon className='size-4' />
-          </DropdownMenuItem>
-        ))}
+        {workspaces?.map((workspace) => {
+          const isActiveWorkspace = workspace.id === activeWorkspace?.id
+
+          return (
+            <DropdownMenuItem
+              key={workspace.id}
+              onClick={() => setActiveWorkspace(workspace.id)}
+              className={cn('gap-2 p-2 justify-between')}
+            >
+              <span>{workspace.name}</span>
+              {isActiveWorkspace && <CheckIcon className='size-4' />}
+            </DropdownMenuItem>
+          )
+        })}
         <DropdownMenuSeparator />
         <DropdownMenuItem className='gap-2 p-2'>
           <div className='flex size-6 items-center justify-center rounded-md border bg-transparent'>
