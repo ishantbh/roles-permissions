@@ -22,7 +22,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className='grow flex flex-col items-center justify-center gap-4'>
+    <div className='grow flex flex-col items-center gap-4 mt-4'>
       <h1 className='text-2xl sm:text-3xl font-semibold text-center'>
         Welcome {session.user.name}!
       </h1>
