@@ -21,10 +21,15 @@ import {
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 
+type WorkspaceFormProps = React.ComponentProps<'form'> & {
+  onClose?: () => void
+}
+
 export function WorkspaceForm({
   className,
+  onClose,
   ...props
-}: React.ComponentProps<'form'>) {
+}: WorkspaceFormProps) {
   const router = useRouter()
 
   const form = useForm<WorkspaceFormData>({
@@ -52,6 +57,7 @@ export function WorkspaceForm({
       }
 
       toast.success('Successfully created organization')
+      onClose?.()
 
       router.push('/dashboard')
     } catch (e) {
