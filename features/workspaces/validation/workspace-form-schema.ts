@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const onboardingSchema = z.object({
+export const workspaceSchema = z.object({
   workspaceName: z
     .string()
     .trim()
@@ -8,4 +8,4 @@ export const onboardingSchema = z.object({
     .max(50, 'Workspace name must be no more than 50 characters long.'),
 })
 
-export type OnboardingFormData = z.infer<typeof onboardingSchema>
+export type WorkspaceFormData = z.infer<typeof workspaceSchema>

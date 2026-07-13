@@ -2,6 +2,7 @@ import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/lib/auth'
+import { WorkspaceSwitcher } from '@/features/workspaces/components/workspace-switcher'
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -21,10 +22,12 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className='grow flex items-center justify-center text-center'>
-      <h1 className='text-2xl sm:text-3xl font-semibold'>
+    <div className='grow flex flex-col items-center gap-4 mt-4'>
+      <h1 className='text-2xl sm:text-3xl font-semibold text-center'>
         Welcome {session.user.name}!
       </h1>
+
+      <WorkspaceSwitcher />
     </div>
   )
 }
