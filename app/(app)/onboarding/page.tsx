@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { OnboardingForm } from '@/features/onboarding/components/onboarding-form'
+import { WorkspaceForm } from '@/features/workspaces/components/workspace-form'
 
 export default async function OnboardingPage() {
   const session = await auth.api.getSession({
@@ -44,7 +44,7 @@ export default async function OnboardingPage() {
             <CardDescription>Create your first workspace</CardDescription>
           </CardHeader>
           <CardContent>
-            <OnboardingForm />
+            <WorkspaceForm />
           </CardContent>
         </Card>
       </div>

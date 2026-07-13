@@ -8,9 +8,9 @@ import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/auth-client'
 import { generateOrganizationSlug } from '@/lib/helpers'
 import {
-  onboardingSchema,
-  type OnboardingFormData,
-} from '../validation/onboarding-form-schema'
+  workspaceSchema,
+  type WorkspaceFormData,
+} from '../validation/workspace-form-schema'
 import { Button } from '@/components/ui/button'
 import {
   Field,
@@ -21,14 +21,14 @@ import {
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 
-export function OnboardingForm({
+export function WorkspaceForm({
   className,
   ...props
 }: React.ComponentProps<'form'>) {
   const router = useRouter()
 
-  const form = useForm<OnboardingFormData>({
-    resolver: zodResolver(onboardingSchema),
+  const form = useForm<WorkspaceFormData>({
+    resolver: zodResolver(workspaceSchema),
     defaultValues: {
       workspaceName: '',
     },
@@ -36,7 +36,7 @@ export function OnboardingForm({
 
   const { isSubmitting } = form.formState
 
-  async function onSubmit(data: OnboardingFormData) {
+  async function onSubmit(data: WorkspaceFormData) {
     try {
       const slug = generateOrganizationSlug(data.workspaceName)
 
