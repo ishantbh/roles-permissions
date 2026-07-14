@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 
 import { auth } from '@/lib/auth'
 import { WorkspaceSwitcher } from '@/features/workspaces/components/workspace-switcher'
+import { MembersTable } from '../../../features/workspaces/components/members-table'
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -28,6 +29,8 @@ export default async function DashboardPage() {
       </h1>
 
       <WorkspaceSwitcher />
+
+      <MembersTable />
     </div>
   )
 }
