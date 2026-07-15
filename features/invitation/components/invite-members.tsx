@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 
+import { authClient } from '@/lib/auth/auth-client'
 import {
   inviteMembersSchema,
   type InviteMembersFormData,
@@ -35,6 +36,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Spinner } from '@/components/ui/spinner'
+import { toast } from 'sonner'
 
 type InviteMembersFormProps = React.ComponentProps<'div'>
 
@@ -52,9 +54,23 @@ export function InviteMembers({ className, ...props }: InviteMembersFormProps) {
   const { isSubmitting } = form.formState
 
   async function onSubmit(data: InviteMembersFormData) {
-    console.log(data)
+    try {
+      const { error } = await authClient.organization.inviteMember({
+        email: data.email, // required
+        role: data.role, // required
+        resend: true,
+      })
 
-    setOpen(false)
+      if (error) {
+        toast.error(error.message)
+        return
+      }
+
+      toast.success('Invitation sent successfully')
+      setOpen(false)
+    } catch (error) {
+      toast.error('Error sending invitation')
+    }
   }
 
   return (
