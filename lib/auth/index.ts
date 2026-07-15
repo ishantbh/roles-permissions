@@ -21,5 +21,20 @@ export const auth = betterAuth({
     enabled: true,
   },
 
-  plugins: [organization(), nextCookies()],
+  plugins: [
+    organization({
+      async sendInvitationEmail(data) {
+        console.log('sendInvitationEmail', data)
+        // const inviteLink = `https://example.com/accept-invitation/${data.id}`
+        // sendOrganizationInvitation({
+        //   email: data.email,
+        //   invitedByUsername: data.inviter.user.name,
+        //   invitedByEmail: data.inviter.user.email,
+        //   teamName: data.organization.name,
+        //   inviteLink,
+        // })
+      },
+    }),
+    nextCookies(),
+  ],
 })
