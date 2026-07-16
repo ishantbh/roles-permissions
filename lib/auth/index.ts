@@ -4,6 +4,7 @@ import { nextCookies } from 'better-auth/next-js'
 import { organization } from 'better-auth/plugins'
 
 import { db } from '@/db'
+import { sendInvitationEmail } from '../send-invitation-mail'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -24,15 +25,14 @@ export const auth = betterAuth({
   plugins: [
     organization({
       async sendInvitationEmail(data) {
-        console.log('sendInvitationEmail', data)
-        // const inviteLink = `https://example.com/accept-invitation/${data.id}`
-        // sendOrganizationInvitation({
-        //   email: data.email,
-        //   invitedByUsername: data.inviter.user.name,
-        //   invitedByEmail: data.inviter.user.email,
-        //   teamName: data.organization.name,
-        //   inviteLink,
-        // })
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL!
+        const inviteLink = `${baseUrl}/accept-invitation/${data.id}`
+        sendInvitationEmail({
+          email: data.email,
+          invitedByUsername: data.inviter.user.name,
+          workspaceName: data.organization.name,
+          inviteLink,
+        })
       },
     }),
     nextCookies(),
