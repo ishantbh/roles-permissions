@@ -37,7 +37,12 @@ export function LoginForm({
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const redirectTo = searchParams.get('redirect')
+  const redirectSearchParam = searchParams.get('redirect')
+  const redirectTo =
+    redirectSearchParam?.startsWith('/') &&
+    !redirectSearchParam?.startsWith('//')
+      ? redirectSearchParam
+      : null
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -60,7 +65,7 @@ export function LoginForm({
 
       toast.success('Successfully logged in')
 
-      if (redirectTo?.startsWith('/') && !redirectTo?.startsWith('//')) {
+      if (redirectTo) {
         router.push(redirectTo)
         return
       }
@@ -152,7 +157,15 @@ export function LoginForm({
                 </Button>
                 <FieldDescription className='text-center'>
                   Don&apos;t have an account?{' '}
-                  <Link href='/sign-up'>Sign up</Link>
+                  <Link
+                    href={
+                      redirectTo
+                        ? `/sign-up?redirect=${redirectTo}`
+                        : '/sign-up'
+                    }
+                  >
+                    Sign up
+                  </Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
