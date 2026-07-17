@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -35,6 +35,9 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<'div'>) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const redirectTo = searchParams.get('redirect')
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -56,6 +59,11 @@ export function LoginForm({
       }
 
       toast.success('Successfully logged in')
+
+      if (redirectTo?.startsWith('/') && !redirectTo?.startsWith('//')) {
+        router.push(redirectTo)
+        return
+      }
 
       const { data: orgs, error: orgError } =
         await authClient.organization.list()
