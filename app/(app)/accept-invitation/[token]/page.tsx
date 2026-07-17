@@ -2,6 +2,7 @@ import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/lib/auth'
+import { InvitationResponse } from '@/features/invitation/components/invitation-response'
 
 type AcceptInvitationPageProps = {
   params: Promise<{ token: string }>
@@ -35,10 +36,7 @@ export default async function AcceptInvitationPage({
         Welcome {session.user.name}!
       </h1>
 
-      <h2 className='text-lg sm:text-xl font-medium text-center'>
-        You have been invited to join:{' '}
-        <strong>{invitation.organizationName}</strong>
-      </h2>
+      <InvitationResponse organizationName={invitation.organizationName} />
     </div>
   )
 }
