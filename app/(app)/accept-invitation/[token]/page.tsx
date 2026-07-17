@@ -36,7 +36,10 @@ export default async function AcceptInvitationPage({
         Welcome {session.user.name}!
       </h1>
 
-      <InvitationResponse organizationName={invitation.organizationName} />
+      <InvitationResponse
+        organizationName={invitation.organizationName}
+        invitationId={invitation.id}
+      />
     </div>
   )
 }
