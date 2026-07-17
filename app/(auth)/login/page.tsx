@@ -16,7 +16,11 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { redirect: redirectTo } = await searchParams
 
   if (session) {
-    redirect(redirectTo ?? '/dashboard')
+    if (redirectTo?.startsWith('/') && !redirectTo?.startsWith('//')) {
+      redirect(redirectTo)
+    } else {
+      redirect('/dashboard')
+    }
   }
 
   return <LoginForm />
