@@ -18,7 +18,7 @@ export default async function AcceptInvitationPage({
 
   if (!session) {
     redirect(
-      `/login?redirect=/accept-invitation?token=${encodeURIComponent(token)}`,
+      `/login?redirect=${encodeURIComponent(`/accept-invitation/${token}`)}`,
     )
   }
 
