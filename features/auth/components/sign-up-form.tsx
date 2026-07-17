@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -32,6 +32,14 @@ export function SignUpForm({
   ...props
 }: React.ComponentProps<'div'>) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const redirectSearchParam = searchParams.get('redirect')
+  const redirectTo =
+    redirectSearchParam?.startsWith('/') &&
+    !redirectSearchParam?.startsWith('//')
+      ? redirectSearchParam
+      : null
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
@@ -58,7 +66,8 @@ export function SignUpForm({
       }
 
       toast.success('Successfully signed up')
-      router.replace('/onboarding')
+
+      router.replace(redirectTo ? redirectTo : '/onboarding')
     } catch (e) {
       toast.error('Error signing up')
     }
@@ -171,7 +180,16 @@ export function SignUpForm({
                   Login with Google
                 </Button>
                 <FieldDescription className='text-center'>
-                  Already have an account? <Link href='/login'>Login</Link>
+                  Already have an account?{' '}
+                  <Link
+                    href={
+                      redirectTo
+                        ? `/login?redirect=${encodeURIComponent(redirectTo)}`
+                        : '/login'
+                    }
+                  >
+                    Login
+                  </Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

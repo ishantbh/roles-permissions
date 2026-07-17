@@ -1,7 +1,8 @@
 'use client'
 
 import { Metadata } from 'next'
-import { FrownIcon } from 'lucide-react'
+import Link from 'next/link'
+import { FrownIcon, HomeIcon, RefreshCwIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 
@@ -25,9 +26,19 @@ export default function Error({
         {error.message || 'Something went wrong'}
       </p>
 
-      <Button onClick={() => unstable_retry()} size='lg'>
-        Try again
-      </Button>
+      <div className='flex gap-4 items-center justify-center'>
+        <Button size='lg' asChild>
+          <Link href='/'>
+            <HomeIcon />
+            <span>Go home</span>
+          </Link>
+        </Button>
+
+        <Button onClick={() => unstable_retry()} size='lg' variant='outline'>
+          <RefreshCwIcon />
+          <span>Try again</span>
+        </Button>
+      </div>
     </main>
   )
 }
