@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -32,6 +32,9 @@ export function SignUpForm({
   ...props
 }: React.ComponentProps<'div'>) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const redirectTo = searchParams.get('redirect')
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
@@ -58,6 +61,12 @@ export function SignUpForm({
       }
 
       toast.success('Successfully signed up')
+
+      if (redirectTo?.startsWith('/') && !redirectTo?.startsWith('//')) {
+        router.push(redirectTo)
+        return
+      }
+
       router.replace('/onboarding')
     } catch (e) {
       toast.error('Error signing up')
