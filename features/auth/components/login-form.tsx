@@ -160,7 +160,7 @@ export function LoginForm({
                   <Link
                     href={
                       redirectTo
-                        ? `/sign-up?redirect=${redirectTo}`
+                        ? `/sign-up?redirect=${encodeURIComponent(redirectTo)}`
                         : '/sign-up'
                     }
                   >

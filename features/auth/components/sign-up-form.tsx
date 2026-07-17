@@ -183,7 +183,9 @@ export function SignUpForm({
                   Already have an account?{' '}
                   <Link
                     href={
-                      redirectTo ? `/login?redirect=${redirectTo}` : '/login'
+                      redirectTo
+                        ? `/login?redirect=${encodeURIComponent(redirectTo)}`
+                        : '/login'
                     }
                   >
                     Login
