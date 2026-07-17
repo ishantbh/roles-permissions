@@ -34,7 +34,12 @@ export function SignUpForm({
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const redirectTo = searchParams.get('redirect')
+  const redirectSearchParam = searchParams.get('redirect')
+  const redirectTo =
+    redirectSearchParam?.startsWith('/') &&
+    !redirectSearchParam?.startsWith('//')
+      ? redirectSearchParam
+      : null
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
@@ -62,12 +67,7 @@ export function SignUpForm({
 
       toast.success('Successfully signed up')
 
-      if (redirectTo?.startsWith('/') && !redirectTo?.startsWith('//')) {
-        router.push(redirectTo)
-        return
-      }
-
-      router.replace('/onboarding')
+      router.replace(redirectTo ? redirectTo : '/onboarding')
     } catch (e) {
       toast.error('Error signing up')
     }
@@ -180,7 +180,14 @@ export function SignUpForm({
                   Login with Google
                 </Button>
                 <FieldDescription className='text-center'>
-                  Already have an account? <Link href='/login'>Login</Link>
+                  Already have an account?{' '}
+                  <Link
+                    href={
+                      redirectTo ? `/login?redirect=${redirectTo}` : '/login'
+                    }
+                  >
+                    Login
+                  </Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
