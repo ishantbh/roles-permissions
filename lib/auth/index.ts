@@ -5,6 +5,7 @@ import { organization } from 'better-auth/plugins'
 
 import { db } from '@/db'
 import { sendInvitationEmail } from '../send-invitation-mail'
+import { getInitialWorkspace } from '@/features/workspaces/helpers'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -20,6 +21,23 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+  },
+
+  databaseHooks: {
+    session: {
+      create: {
+        before: async (session) => {
+          const workspace = await getInitialWorkspace(session.userId)
+
+          return {
+            data: {
+              ...session,
+              activeOrganizationId: workspace?.id,
+            },
+          }
+        },
+      },
+    },
   },
 
   plugins: [
