@@ -23,6 +23,8 @@ export default async function DashboardPage() {
     redirect('/onboarding')
   }
 
+  const { activeOrganizationId } = session.session
+
   return (
     <div className='grow flex flex-col items-center gap-4 mt-4'>
       <h1 className='text-2xl sm:text-3xl font-semibold text-center'>
@@ -33,7 +35,7 @@ export default async function DashboardPage() {
 
       <InviteMembers />
 
-      <MembersTable />
+      {activeOrganizationId && <MembersTable />}
     </div>
   )
 }
