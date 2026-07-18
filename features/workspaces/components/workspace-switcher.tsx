@@ -68,7 +68,7 @@ export function WorkspaceSwitcher() {
           <Button variant='outline' className='px-4 w-full max-w-3xs'>
             <div className='text-sm leading-tight'>
               <span className='truncate font-medium'>
-                {activeWorkspace?.name}
+                {activeWorkspace?.name ?? 'Select Workspace'}
               </span>
             </div>
             <ChevronsUpDownIcon className='ml-auto' />
