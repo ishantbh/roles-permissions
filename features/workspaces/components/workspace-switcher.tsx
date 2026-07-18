@@ -55,6 +55,7 @@ export function WorkspaceSwitcher() {
       }
 
       toast.success('Successfully switched workspace')
+      router.refresh()
     } catch (error) {
       toast.error('Error switching workspace')
     }
