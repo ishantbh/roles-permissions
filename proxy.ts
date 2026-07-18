@@ -8,7 +8,14 @@ export async function proxy(request: NextRequest) {
   // This is the recommended approach to optimistically redirect users
   // We recommend handling auth checks in each page/route
   if (!sessionCookie) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    const loginUrl = new URL('/login', request.url)
+
+    // Preserve the requested path + query
+    const redirectTo = request.nextUrl.pathname + request.nextUrl.search
+
+    loginUrl.searchParams.set('redirect', redirectTo)
+
+    return NextResponse.redirect(loginUrl)
   }
 
   return NextResponse.next()
