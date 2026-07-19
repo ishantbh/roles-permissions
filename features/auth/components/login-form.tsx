@@ -44,6 +44,10 @@ export function LoginForm({
       ? redirectSearchParam
       : null
 
+  const { refetch: refetchOrganizationList } = authClient.useListOrganizations()
+  const { refetch: refetchActiveOrganization } =
+    authClient.useActiveOrganization()
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -64,6 +68,11 @@ export function LoginForm({
       }
 
       toast.success('Successfully logged in')
+
+      await Promise.all([
+        refetchOrganizationList(),
+        refetchActiveOrganization(),
+      ])
 
       if (redirectTo) {
         router.push(redirectTo)
