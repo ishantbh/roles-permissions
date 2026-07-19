@@ -32,6 +32,10 @@ export function WorkspaceForm({
 }: WorkspaceFormProps) {
   const router = useRouter()
 
+  const { refetch: refetchOrganizationList } = authClient.useListOrganizations()
+  const { refetch: refetchActiveOrganization } =
+    authClient.useActiveOrganization()
+
   const form = useForm<WorkspaceFormData>({
     resolver: zodResolver(workspaceSchema),
     defaultValues: {
@@ -45,23 +49,40 @@ export function WorkspaceForm({
     try {
       const slug = generateOrganizationSlug(data.workspaceName)
 
-      const { error } = await authClient.organization.create({
-        name: data.workspaceName,
-        slug,
-        keepCurrentActiveOrganization: false,
-      })
+      const { data: organization, error } =
+        await authClient.organization.create({
+          name: data.workspaceName,
+          slug,
+          keepCurrentActiveOrganization: false,
+        })
 
       if (error) {
         toast.error(error.message)
         return
       }
 
-      toast.success('Successfully created organization')
+      toast.success('Successfully created workspace')
+
+      const { error: setActiveOrgError } =
+        await authClient.organization.setActive({
+          organizationId: organization.id,
+        })
+
+      if (setActiveOrgError) {
+        toast.error(setActiveOrgError.message)
+        return
+      }
+
+      await Promise.all([
+        refetchOrganizationList(),
+        refetchActiveOrganization(),
+      ])
+
       onClose?.()
 
       router.push('/dashboard')
     } catch (e) {
-      toast.error('Error creating organization')
+      toast.error('Error creating workspace')
     }
   }
 
