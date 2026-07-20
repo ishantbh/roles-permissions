@@ -37,7 +37,7 @@ export async function MembersTable() {
             <TableCell>{member.user.email}</TableCell>
             <TableCell>{member.role}</TableCell>
             <TableCell className='text-right'>
-              <MembersTableActions />
+              <MembersTableActions memberId={member.id} />
             </TableCell>
           </TableRow>
         ))}

@@ -1,14 +1,22 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { PencilIcon, Trash2Icon } from 'lucide-react'
 
 import { authClient } from '@/lib/auth/auth-client'
 import { Button } from '@/components/ui/button'
 
-export function MembersTableActions() {
+type MembersTableActionsProps = {
+  memberId: string
+}
+
+export function MembersTableActions({ memberId }: MembersTableActionsProps) {
   const [canUpdateMember, setCanUpdateMember] = useState(false)
   const [canRemoveMember, setCanRemoveMember] = useState(false)
+
+  const router = useRouter()
 
   useEffect(() => {
     async function checkPermissions() {
@@ -31,6 +39,29 @@ export function MembersTableActions() {
     checkPermissions()
   }, [authClient])
 
+  async function handleRemoveMember() {
+    const { data: activeMember, error: activeMemberError } =
+      await authClient.organization.getActiveMember()
+
+    if (activeMember?.id === memberId) {
+      toast.error('You cannot remove yourself from the workspace')
+      return
+    }
+
+    const { error } = await authClient.organization.removeMember({
+      memberIdOrEmail: memberId,
+    })
+
+    if (error) {
+      toast.error(error.message)
+      return
+    }
+
+    toast.success('Member removed successfully')
+
+    router.refresh()
+  }
+
   return (
     <div className='flex items-center gap-3 justify-end'>
       <Button
@@ -47,6 +78,7 @@ export function MembersTableActions() {
         size='icon'
         title='Delete'
         disabled={!canRemoveMember}
+        onClick={handleRemoveMember}
       >
         <Trash2Icon className='size-4' />
         <span className='sr-only'>Delete</span>
