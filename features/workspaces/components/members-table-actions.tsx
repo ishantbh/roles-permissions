@@ -1,0 +1,88 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { PencilIcon, Trash2Icon } from 'lucide-react'
+
+import { authClient } from '@/lib/auth/auth-client'
+import { Button } from '@/components/ui/button'
+
+type MembersTableActionsProps = {
+  memberId: string
+}
+
+export function MembersTableActions({ memberId }: MembersTableActionsProps) {
+  const [canUpdateMember, setCanUpdateMember] = useState(false)
+  const [canRemoveMember, setCanRemoveMember] = useState(false)
+
+  const router = useRouter()
+
+  useEffect(() => {
+    async function checkPermissions() {
+      const canUpdateMember = await authClient.organization.hasPermission({
+        permissions: {
+          member: ['update'],
+        },
+      })
+
+      setCanUpdateMember(canUpdateMember.data?.success ?? false)
+
+      const canRemoveMember = await authClient.organization.hasPermission({
+        permissions: {
+          member: ['delete'],
+        },
+      })
+
+      setCanRemoveMember(canRemoveMember.data?.success ?? false)
+    }
+    checkPermissions()
+  }, [authClient])
+
+  async function handleRemoveMember() {
+    const { data: activeMember, error: activeMemberError } =
+      await authClient.organization.getActiveMember()
+
+    if (activeMember?.id === memberId) {
+      toast.error('You cannot remove yourself from the workspace')
+      return
+    }
+
+    const { error } = await authClient.organization.removeMember({
+      memberIdOrEmail: memberId,
+    })
+
+    if (error) {
+      toast.error(error.message)
+      return
+    }
+
+    toast.success('Member removed successfully')
+
+    router.refresh()
+  }
+
+  return (
+    <div className='flex items-center gap-3 justify-end'>
+      <Button
+        variant='outline'
+        size='icon'
+        title='Edit'
+        disabled={!canUpdateMember}
+      >
+        <PencilIcon className='size-4' />
+        <span className='sr-only'>Edit</span>
+      </Button>
+      <Button
+        variant='destructive'
+        size='icon'
+        title='Delete'
+        disabled={!canRemoveMember}
+        onClick={handleRemoveMember}
+      >
+        <Trash2Icon className='size-4' />
+        <span className='sr-only'>Delete</span>
+      </Button>
+    </div>
+  )
+}

@@ -25,6 +25,15 @@ export default async function DashboardPage() {
 
   const { activeOrganizationId } = session.session
 
+  const { success: canInviteMembers } = await auth.api.hasPermission({
+    headers: await headers(),
+    body: {
+      permissions: {
+        member: ['create'],
+      },
+    },
+  })
+
   return (
     <div className='grow flex flex-col items-center gap-4 mt-4'>
       <h1 className='text-2xl sm:text-3xl font-semibold text-center'>
@@ -33,7 +42,7 @@ export default async function DashboardPage() {
 
       <WorkspaceSwitcher />
 
-      <InviteMembers />
+      {canInviteMembers && <InviteMembers />}
 
       {activeOrganizationId && <MembersTable />}
     </div>

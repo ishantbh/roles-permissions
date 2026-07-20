@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { MembersTableActions } from './members-table-actions'
 
 export async function MembersTable() {
   const { members } = await auth.api.listMembers({
@@ -24,7 +25,8 @@ export async function MembersTable() {
           <TableHead className='w-25'>User Id</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
-          <TableHead className='text-right'>Role</TableHead>
+          <TableHead>Role</TableHead>
+          <TableHead className='text-right'>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -33,7 +35,10 @@ export async function MembersTable() {
             <TableCell className='font-medium'>{member.userId}</TableCell>
             <TableCell>{member.user.name}</TableCell>
             <TableCell>{member.user.email}</TableCell>
-            <TableCell className='text-right'>{member.role}</TableCell>
+            <TableCell>{member.role}</TableCell>
+            <TableCell className='text-right'>
+              <MembersTableActions memberId={member.id} />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
