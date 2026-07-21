@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm'
 import {
   index,
   pgTable,
@@ -33,3 +34,15 @@ export const project = pgTable(
     index('project_userId_idx').on(table.userId),
   ],
 )
+
+export const projectRelations = relations(project, ({ one }) => ({
+  organization: one(organization, {
+    fields: [project.orgId],
+    references: [organization.id],
+  }),
+
+  user: one(user, {
+    fields: [project.userId],
+    references: [user.id],
+  }),
+}))
