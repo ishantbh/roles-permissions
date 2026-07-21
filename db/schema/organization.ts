@@ -3,6 +3,7 @@ import { pgTable, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 
 import { invitation } from './invitation'
 import { member } from './member'
+import { project } from './project'
 
 export const organization = pgTable(
   'organization',
@@ -20,4 +21,5 @@ export const organization = pgTable(
 export const organizationRelations = relations(organization, ({ many }) => ({
   members: many(member),
   invitations: many(invitation),
+  projects: many(project),
 }))
