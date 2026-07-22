@@ -27,10 +27,22 @@ export default async function ProjectsPage() {
     redirect('/dashboard')
   }
 
+  const activeOrg = organizations.find((org) => org.id === activeOrganizationId)
+
+  if (!activeOrg) {
+    redirect('/dashboard')
+  }
+
   const projects = await getProjectsByActiveOrg({
     userId: session.user.id,
     activeOrgId: activeOrganizationId,
   })
 
-  return <div>Projects</div>
+  return (
+    <div className='grow flex flex-col items-center gap-4 mt-4'>
+      <h1 className='text-2xl sm:text-3xl font-semibold text-center'>
+        {activeOrg.name}
+      </h1>
+    </div>
+  )
 }
