@@ -22,7 +22,6 @@ export async function MembersTable() {
       <TableCaption>A list of members in the current workspace.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className='w-25'>User Id</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
@@ -32,7 +31,6 @@ export async function MembersTable() {
       <TableBody>
         {members.map((member) => (
           <TableRow key={member.id}>
-            <TableCell className='font-medium'>{member.userId}</TableCell>
             <TableCell>{member.user.name}</TableCell>
             <TableCell>{member.user.email}</TableCell>
             <TableCell>{member.role}</TableCell>
