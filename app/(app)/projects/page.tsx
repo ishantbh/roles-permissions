@@ -1,5 +1,6 @@
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { toast } from 'sonner'
 
 import { auth } from '@/lib/auth'
 import { getProjectsByActiveOrg } from '@/features/projects/data/get-projects-by-active-org'
@@ -37,6 +38,11 @@ export default async function ProjectsPage() {
     userId: session.user.id,
     activeOrgId: activeOrganizationId,
   })
+
+  if (!projects) {
+    toast.error('You are not a member of this organization')
+    redirect('/dashboard')
+  }
 
   return (
     <div className='grow flex flex-col items-center gap-4 mt-4'>
