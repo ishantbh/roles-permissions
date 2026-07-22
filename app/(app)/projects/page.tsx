@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 
 import { auth } from '@/lib/auth'
 import { getProjectsByActiveOrg } from '@/features/projects/data/get-projects-by-active-org'
+import { ProjectsList } from '@/features/projects/components/projects-list'
 
 export default async function ProjectsPage() {
   const session = await auth.api.getSession({
@@ -49,6 +50,8 @@ export default async function ProjectsPage() {
       <h1 className='text-2xl sm:text-3xl font-semibold text-center'>
         {activeOrg.name}
       </h1>
+
+      <ProjectsList projects={projects} />
     </div>
   )
 }
