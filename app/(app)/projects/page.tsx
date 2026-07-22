@@ -12,5 +12,19 @@ export default async function ProjectsPage() {
     redirect('/login')
   }
 
+  const organizations = await auth.api.listOrganizations({
+    headers: await headers(),
+  })
+
+  if (organizations.length === 0) {
+    redirect('/onboarding')
+  }
+
+  const { activeOrganizationId } = session.session
+
+  if (!activeOrganizationId) {
+    redirect('/dashboard')
+  }
+
   return <div>Projects</div>
 }
