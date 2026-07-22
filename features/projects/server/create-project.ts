@@ -23,7 +23,7 @@ export async function createProject(data: ProjectData) {
 
   if (!member) {
     return {
-      error: 'Current user not a member of the active organization',
+      error: 'Current user not a member of the active workspace',
     }
   }
 

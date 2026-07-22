@@ -42,7 +42,7 @@ export default async function ProjectsPage() {
   })
 
   if (!projects) {
-    toast.error('You are not a member of this organization')
+    toast.error('You are not a member of this workspace')
     redirect('/dashboard')
   }
 
