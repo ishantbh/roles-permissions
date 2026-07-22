@@ -1,11 +1,10 @@
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { toast } from 'sonner'
-import { PlusIcon } from 'lucide-react'
 
 import { auth } from '@/lib/auth'
 import { getProjectsByActiveOrg } from '@/features/projects/data/get-projects-by-active-org'
-import { Button } from '@/components/ui/button'
+import { ProjectDialog } from '@/features/projects/components/project-dialog'
 import { ProjectsList } from '@/features/projects/components/projects-list'
 
 export default async function ProjectsPage() {
@@ -54,10 +53,7 @@ export default async function ProjectsPage() {
           {activeOrg.name}
         </h1>
 
-        <Button>
-          <PlusIcon className='size-4' />
-          <span>Create Project</span>
-        </Button>
+        <ProjectDialog />
       </div>
 
       <ProjectsList projects={projects} />
