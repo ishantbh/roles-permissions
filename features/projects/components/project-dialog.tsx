@@ -26,6 +26,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { Textarea } from '@/components/ui/textarea'
+import { createProject } from '../server/create-project'
 
 export function ProjectDialog({
   className,
@@ -45,7 +46,12 @@ export function ProjectDialog({
 
   async function onSubmit(data: ProjectData) {
     try {
-      // TODO: Add logic to create project
+      const res = await createProject(data)
+
+      if (res?.error) {
+        toast.error(res.error)
+        return
+      }
 
       toast.success('Project created successfully')
       setOpen(false)
