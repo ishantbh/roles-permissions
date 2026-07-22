@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { ThemeToggle } from './theme/theme-toggle'
 import { LogoutButton } from '@/features/auth/components/logout-button'
+import { Button } from './ui/button'
 
 export function AppHeader() {
   return (
@@ -12,6 +13,11 @@ export function AppHeader() {
         </Link>
 
         <div className='flex items-center justify-between gap-2'>
+          <nav>
+            <Button variant='link' className='text-foreground' asChild>
+              <Link href='/projects'>Projects</Link>
+            </Button>
+          </nav>
           <ThemeToggle />
           <LogoutButton />
         </div>
