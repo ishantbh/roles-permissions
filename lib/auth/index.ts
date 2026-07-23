@@ -6,6 +6,7 @@ import { organization } from 'better-auth/plugins'
 import { db } from '@/db'
 import { sendInvitationEmail } from '../send-invitation-mail'
 import { getInitialWorkspace } from '@/features/workspaces/helpers'
+import { ac, admin, member, owner } from './permissions'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -42,6 +43,12 @@ export const auth = betterAuth({
 
   plugins: [
     organization({
+      ac,
+      roles: {
+        owner,
+        admin,
+        member,
+      },
       async sendInvitationEmail(data) {
         const baseUrl = process.env.NEXT_PUBLIC_APP_URL!
         const inviteLink = `${baseUrl}/accept-invitation/${data.id}`
