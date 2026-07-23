@@ -1,7 +1,9 @@
+import { headers } from 'next/headers'
 import Link from 'next/link'
 import { ExternalLinkIcon } from 'lucide-react'
 
 import type { Project } from '@/db/types'
+import { auth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -16,7 +18,16 @@ type ProjectListItemProps = {
   project: Project
 }
 
-export function ProjectListItem({ project }: ProjectListItemProps) {
+export async function ProjectListItem({ project }: ProjectListItemProps) {
+  const { success: canDeleteProject } = await auth.api.hasPermission({
+    headers: await headers(),
+    body: {
+      permissions: {
+        project: ['delete'],
+      },
+    },
+  })
+
   return (
     <Card key={project.id}>
       <CardHeader>
@@ -33,7 +44,9 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
               </Link>
             </Button>
 
-            <ProjectListItemDeleteButton project={project} />
+            {canDeleteProject && (
+              <ProjectListItemDeleteButton project={project} />
+            )}
           </div>
         </CardAction>
       </CardHeader>
