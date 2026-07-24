@@ -3,7 +3,13 @@ import { redirect } from 'next/navigation'
 
 import { auth } from '@/lib/auth'
 
-export default async function ProjectDetailsPage() {
+type ProjectDetailsPageProps = {
+  params: Promise<{ id: string }>
+}
+
+export default async function ProjectDetailsPage({
+  params,
+}: ProjectDetailsPageProps) {
   const session = await auth.api.getSession({
     headers: await headers(),
   })
@@ -12,5 +18,7 @@ export default async function ProjectDetailsPage() {
     redirect('/login')
   }
 
-  return <div>Project Details Page</div>
+  const { id } = await params
+
+  return <div>Project Details Page: {id}</div>
 }
