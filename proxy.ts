@@ -26,6 +26,6 @@ export const config = {
     '/dashboard',
     '/onboarding',
     '/accept-invitation/:path*',
-    '/projects',
+    '/projects/:path*',
   ], // Specify the routes the middleware applies to
 }
