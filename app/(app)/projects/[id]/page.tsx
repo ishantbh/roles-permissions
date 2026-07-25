@@ -1,7 +1,11 @@
 import { headers } from 'next/headers'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { ArrowLeftIcon } from 'lucide-react'
 
 import { auth } from '@/lib/auth'
+import { getProjectById } from '@/features/projects/data/get-project-by-id'
+import { Button } from '@/components/ui/button'
 
 type ProjectDetailsPageProps = {
   params: Promise<{ id: string }>
@@ -20,5 +24,29 @@ export default async function ProjectDetailsPage({
 
   const { id } = await params
 
-  return <div>Project Details Page: {id}</div>
+  const project = await getProjectById({
+    projectId: id,
+    userId: session.user.id,
+  })
+
+  if (!project) {
+    return (
+      <div className='grow flex flex-col items-center gap-4 mt-4'>
+        <div className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center gap-4'>
+          <h1 className='text-2xl sm:text-3xl font-semibold text-center'>
+            Project Not Found
+          </h1>
+
+          <Button size='lg' asChild>
+            <Link href='/projects'>
+              <ArrowLeftIcon className='size-4' />
+              <span>Go back to projects</span>
+            </Link>
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  return <div>{project.title}</div>
 }
