@@ -57,7 +57,7 @@ export default async function ProjectDetailsPage({
           </h1>
 
           <p className='text-muted-foreground'>
-            {project.description ?? 'No description'}
+            {project.description || 'No description'}
           </p>
         </div>
       </div>
