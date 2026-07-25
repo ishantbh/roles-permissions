@@ -48,5 +48,19 @@ export default async function ProjectDetailsPage({
     )
   }
 
-  return <div>{project.title}</div>
+  return (
+    <div className='grow flex flex-col items-center gap-4 mt-4'>
+      <div className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between gap-4'>
+        <div className='space-y-4'>
+          <h1 className='text-2xl sm:text-3xl font-semibold'>
+            {project.title}
+          </h1>
+
+          <p className='text-muted-foreground'>
+            {project.description ?? 'No description'}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
 }
