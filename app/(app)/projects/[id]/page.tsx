@@ -6,6 +6,7 @@ import { ArrowLeftIcon } from 'lucide-react'
 import { auth } from '@/lib/auth'
 import { getProjectById } from '@/features/projects/data/get-project-by-id'
 import { Button } from '@/components/ui/button'
+import { ProjectDialog } from '@/features/projects/components/project-dialog'
 
 type ProjectDetailsPageProps = {
   params: Promise<{ id: string }>
@@ -60,6 +61,8 @@ export default async function ProjectDetailsPage({
             {project.description || 'No description'}
           </p>
         </div>
+
+        <ProjectDialog project={project} />
       </div>
     </div>
   )
