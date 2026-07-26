@@ -88,13 +88,19 @@ export function ProjectDialog({
         }}
       >
         <DialogTrigger asChild>
-          <Button>
+          <Button
+            variant='outline'
+            size='lg'
+            title={`${isEditing ? 'Edit' : 'Create'} project`}
+          >
             {isEditing ? (
               <PencilIcon className='size-4' />
             ) : (
               <PlusIcon className='size-4' />
             )}
-            <span>{isEditing ? 'Edit Project' : 'Create Project'}</span>
+            <span className='sr-only sm:not-sr-only'>
+              {isEditing ? 'Edit Project' : 'Create Project'}
+            </span>
           </Button>
         </DialogTrigger>
 
