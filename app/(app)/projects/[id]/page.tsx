@@ -6,6 +6,7 @@ import { ArrowLeftIcon } from 'lucide-react'
 import { auth } from '@/lib/auth'
 import { getProjectById } from '@/features/projects/data/get-project-by-id'
 import { Button } from '@/components/ui/button'
+import { DeleteProjectConfirmationDialog } from '@/features/projects/components/delete-project-confirmation-dialog'
 import { ProjectDialog } from '@/features/projects/components/project-dialog'
 
 type ProjectDetailsPageProps = {
@@ -51,7 +52,7 @@ export default async function ProjectDetailsPage({
 
   return (
     <div className='grow flex flex-col items-center gap-4 mt-4'>
-      <div className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between gap-4'>
+      <div className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-start justify-between gap-4'>
         <div className='space-y-4'>
           <h1 className='text-2xl sm:text-3xl font-semibold'>
             {project.title}
@@ -62,7 +63,11 @@ export default async function ProjectDetailsPage({
           </p>
         </div>
 
-        <ProjectDialog project={project} />
+        <div className='flex items-center gap-4'>
+          <ProjectDialog project={project} />
+
+          <DeleteProjectConfirmationDialog />
+        </div>
       </div>
     </div>
   )
