@@ -1,6 +1,6 @@
 import { headers } from 'next/headers'
 import Link from 'next/link'
-import { ExternalLinkIcon } from 'lucide-react'
+import { ExternalLinkIcon, Trash2Icon } from 'lucide-react'
 
 import type { Project } from '@/db/types'
 import { auth } from '@/lib/auth'
@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { ProjectListItemDeleteButton } from './project-list-item-delete-button'
+import { DeleteProjectConfirmationDialog } from './delete-project-confirmation-dialog'
 
 type ProjectListItemProps = {
   project: Project
@@ -45,7 +45,18 @@ export async function ProjectListItem({ project }: ProjectListItemProps) {
             </Button>
 
             {canDeleteProject && (
-              <ProjectListItemDeleteButton project={project} />
+              // <ProjectListItemDeleteButton project={project} />
+              <DeleteProjectConfirmationDialog projectId={project.id}>
+                <Button
+                  variant='destructive'
+                  size='icon'
+                  className='bg-inherit dark:bg-inherit'
+                  title='Delete'
+                >
+                  <Trash2Icon className='size-4' />
+                  <span className='sr-only'>Delete {project.title}</span>
+                </Button>
+              </DeleteProjectConfirmationDialog>
             )}
           </div>
         </CardAction>
