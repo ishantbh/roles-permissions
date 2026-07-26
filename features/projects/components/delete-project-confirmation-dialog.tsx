@@ -17,13 +17,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
 
 type DeleteProjectConfirmationDialogProps = {
+  children: React.ReactNode
   projectId: string
 }
 
 export function DeleteProjectConfirmationDialog({
+  children,
   projectId,
 }: DeleteProjectConfirmationDialogProps) {
   const router = useRouter()
@@ -47,12 +48,7 @@ export function DeleteProjectConfirmationDialog({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant='destructive' size='lg' title='Delete project'>
-          <Trash2Icon className='size-4' />
-          <span className='sr-only sm:not-sr-only'>Delete</span>
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent size='sm'>
         <AlertDialogHeader>
           <AlertDialogMedia className='bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive'>

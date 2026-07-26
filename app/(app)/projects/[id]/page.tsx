@@ -1,7 +1,7 @@
 import { headers } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { ArrowLeftIcon } from 'lucide-react'
+import { ArrowLeftIcon, Trash2Icon } from 'lucide-react'
 
 import { auth } from '@/lib/auth'
 import { getProjectById } from '@/features/projects/data/get-project-by-id'
@@ -76,7 +76,12 @@ export default async function ProjectDetailsPage({
           <ProjectDialog project={project} />
 
           {canDeleteProject && (
-            <DeleteProjectConfirmationDialog projectId={project.id} />
+            <DeleteProjectConfirmationDialog projectId={project.id}>
+              <Button variant='destructive' size='lg' title='Delete project'>
+                <Trash2Icon className='size-4' />
+                <span className='sr-only sm:not-sr-only'>Delete</span>
+              </Button>
+            </DeleteProjectConfirmationDialog>
           )}
         </div>
       </div>
