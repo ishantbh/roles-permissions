@@ -75,7 +75,9 @@ export default async function ProjectDetailsPage({
         <div className='flex items-center gap-4'>
           <ProjectDialog project={project} />
 
-          {canDeleteProject && <DeleteProjectConfirmationDialog />}
+          {canDeleteProject && (
+            <DeleteProjectConfirmationDialog projectId={project.id} />
+          )}
         </div>
       </div>
     </div>

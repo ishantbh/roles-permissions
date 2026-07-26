@@ -1,7 +1,10 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { Trash2Icon } from 'lucide-react'
 
+import { deleteProject } from '../server/delete-project'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +19,32 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 
-export function DeleteProjectConfirmationDialog() {
+type DeleteProjectConfirmationDialogProps = {
+  projectId: string
+}
+
+export function DeleteProjectConfirmationDialog({
+  projectId,
+}: DeleteProjectConfirmationDialogProps) {
+  const router = useRouter()
+
+  async function handleDelete() {
+    try {
+      const res = await deleteProject({ projectId })
+
+      if (res?.error) {
+        toast.error(res.error)
+        return
+      }
+
+      toast.success('Project deleted')
+
+      router.push('/projects')
+    } catch (err) {
+      toast.error('Error deleting project')
+    }
+  }
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -37,7 +65,9 @@ export function DeleteProjectConfirmationDialog() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel variant='outline'>Cancel</AlertDialogCancel>
-          <AlertDialogAction variant='destructive'>Delete</AlertDialogAction>
+          <AlertDialogAction variant='destructive' onClick={handleDelete}>
+            Delete
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
