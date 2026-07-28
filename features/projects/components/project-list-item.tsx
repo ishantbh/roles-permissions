@@ -33,7 +33,7 @@ export async function ProjectListItem({ project }: ProjectListItemProps) {
       <CardHeader>
         <CardTitle>{project.title}</CardTitle>
         <CardDescription className='truncate line-clamp-1'>
-          {project.description}
+          {project.description || 'No description'}
         </CardDescription>
         <CardAction>
           <div className='flex items-center'>
