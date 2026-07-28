@@ -9,6 +9,7 @@ import { getProjectById } from '@/features/projects/data/get-project-by-id'
 import { Button } from '@/components/ui/button'
 import { DeleteProjectConfirmationDialog } from '@/features/projects/components/delete-project-confirmation-dialog'
 import { ProjectDialog } from '@/features/projects/components/project-dialog'
+import { GoBackButton } from '@/components/go-back-button'
 
 type ProjectDetailsPageProps = {
   params: Promise<{ id: string }>
@@ -63,18 +64,22 @@ export default async function ProjectDetailsPage({
   return (
     <div className='grow flex flex-col items-center gap-4 mt-4'>
       <div className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-start justify-between gap-4'>
-        <div className='space-y-4'>
-          <h1 className='text-2xl sm:text-3xl font-semibold'>
-            {project.title}
-          </h1>
+        <div className='flex items-start gap-4'>
+          <GoBackButton />
 
-          <p className='text-muted-foreground text-sm'>
-            {formatDate(project.createdAt, 'PPP')}
-          </p>
+          <div className='space-y-4'>
+            <h1 className='text-2xl sm:text-3xl font-semibold'>
+              {project.title}
+            </h1>
 
-          <p className='text-muted-foreground mt-4'>
-            {project.description || 'No description'}
-          </p>
+            <p className='text-muted-foreground text-sm'>
+              {formatDate(project.createdAt, 'PPP')}
+            </p>
+
+            <p className='text-muted-foreground mt-4'>
+              {project.description || 'No description'}
+            </p>
+          </div>
         </div>
 
         <div className='flex items-center gap-4'>
