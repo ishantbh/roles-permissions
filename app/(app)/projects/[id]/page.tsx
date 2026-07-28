@@ -1,6 +1,7 @@
 import { headers } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { formatDate } from 'date-fns'
 import { ArrowLeftIcon, Trash2Icon } from 'lucide-react'
 
 import { auth } from '@/lib/auth'
@@ -67,7 +68,11 @@ export default async function ProjectDetailsPage({
             {project.title}
           </h1>
 
-          <p className='text-muted-foreground'>
+          <p className='text-muted-foreground text-sm'>
+            {formatDate(project.createdAt, 'PPP')}
+          </p>
+
+          <p className='text-muted-foreground mt-4'>
             {project.description || 'No description'}
           </p>
         </div>
